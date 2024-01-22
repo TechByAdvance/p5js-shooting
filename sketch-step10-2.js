@@ -12,6 +12,7 @@ let enemyX;
 let enemyY;
 let enemyHit;
 let enemyTime;
+let enemySpeedX;
 
 let bulletImage;
 let bulletX;
@@ -35,6 +36,7 @@ function setup() {
   enemyX = [];
   enemyY = [];
   enemyHit = [];
+  enemySpeedX = [];
   enemyTime = 0;
   bulletX = [];
   bulletY = [];
@@ -66,10 +68,15 @@ function draw() {
       enemyX.push(random(0, width));
       enemyY.push(0);
       enemyHit.push(false);
+      enemySpeedX.push(random(-10, 10));
     }
 
     // 敵を動かす
     for (let i = 0; i < enemyY.length; i++) {
+      if (enemyX[i] < 0 || width < enemyX[i]) {
+        enemySpeedX[i] = -enemySpeedX[i];
+      }
+      enemyX[i] += enemySpeedX[i];
       enemyY[i] += 5;
     }
 
