@@ -1,3 +1,5 @@
+// 効果音を追加
+
 // 必要な変数を定義する
 let mode = 0;
 let gameTime;
