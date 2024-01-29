@@ -1,5 +1,3 @@
-// カスタマイズ：敵の軌道をジグザグに
-
 // 必要な変数を定義する
 let mode = 0;
 let gameTime;
@@ -14,18 +12,23 @@ let enemyX;
 let enemyY;
 let enemyHit;
 let enemyTime;
-let enemySpeedX;
 
 let bulletImage;
 let bulletX;
 let bulletY;
 let bulletHit;
 
+let shootSound;
+let hitSound;
+
 function preload() {
   // 画像を読み込む
   playerImage = loadImage("image/player.png");
   enemyImage = loadImage("image/enemy.png");
   bulletImage = loadImage("image/bullet.png");
+
+  shootSound = loadSound("sound/shoot.mp3");
+  hitSound = loadSound("sound/hit.mp3");
 }
 
 function setup() {
@@ -38,7 +41,6 @@ function setup() {
   enemyX = [];
   enemyY = [];
   enemyHit = [];
-  enemySpeedX = [];
   enemyTime = 0;
   bulletX = [];
   bulletY = [];
@@ -70,15 +72,10 @@ function draw() {
       enemyX.push(random(0, width));
       enemyY.push(0);
       enemyHit.push(false);
-      enemySpeedX.push(random(-10, 10));
     }
 
     // 敵を動かす
     for (let i = 0; i < enemyY.length; i++) {
-      if (enemyX[i] < 0 || width < enemyX[i]) {
-        enemySpeedX[i] = -enemySpeedX[i];
-      }
-      enemyX[i] += enemySpeedX[i];
       enemyY[i] += 5;
     }
 
@@ -99,6 +96,7 @@ function draw() {
           enemyHit[i] = true;
           bulletHit[j] = true;
           score++;
+          hitSound.play();
         }
       }
     }
@@ -148,6 +146,7 @@ function draw() {
 function keyPressed() {
   // 弾を打つ
   if (key == " ") {
+    shootSound.play();
     bulletX.push(playerX);
     bulletY.push(height - 70);
     bulletHit.push(false);
